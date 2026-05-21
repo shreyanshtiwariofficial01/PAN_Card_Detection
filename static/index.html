@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PAN Card Detection AI</title>
+
+```
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+    }
+
+    .container {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(15px);
+        padding: 30px;
+        border-radius: 20px;
+        width: 420px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    h1 {
+        margin-bottom: 10px;
+    }
+
+    p {
+        font-size: 14px;
+        margin-bottom: 20px;
+        opacity: 0.8;
+    }
+
+    .upload-box {
+        border: 2px dashed rgba(255,255,255,0.5);
+        padding: 30px;
+        border-radius: 15px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .upload-box:hover {
+        background: rgba(255,255,255,0.1);
+    }
+
+    input[type="file"] {
+        display: none;
+    }
+
+    button {
+        margin-top: 20px;
+        padding: 12px 25px;
+        border: none;
+        border-radius: 30px;
+        background: #ff7a18;
+        background: linear-gradient(45deg, #ff7a18, #ffb347);
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        transform: scale(1.05);
+    }
+
+    .preview {
+        margin-top: 20px;
+    }
+
+    .preview img {
+        width: 100%;
+        border-radius: 10px;
+    }
+
+    .loader {
+        display: none;
+        margin-top: 15px;
+    }
+
+    .loader span {
+        animation: blink 1.4s infinite both;
+    }
+
+    .loader span:nth-child(2) {
+        animation-delay: .2s;
+    }
+
+    .loader span:nth-child(3) {
+        animation-delay: .4s;
+    }
+
+    @keyframes blink {
+        0% { opacity: 0.2; }
+        20% { opacity: 1; }
+        100% { opacity: 0.2; }
+    }
+
+</style>
+```
+
+</head>
+<body>
+
+<div class="container">
+    <h1>🔍 PAN Card AI Detector</h1>
+    <p>Upload your PAN Card image and detect details instantly</p>
+
+```
+<label class="upload-box">
+    <input type="file" id="fileInput">
+    📁 Click or Drag Image Here
+</label>
+
+<button onclick="upload()">Detect Now</button>
+
+<div class="loader" id="loader">
+    Processing<span>.</span><span>.</span><span>.</span>
+</div>
+
+<div class="preview">
+    <img id="outputImage"/>
+</div>
+```
+
+</div>
+
+<script>
+async function upload() {
+    const fileInput = document.getElementById("fileInput");
+    const file = fileInput.files[0];
+
+    if (!file) {
+        alert("Please select an image!");
+        return;
+    }
+
+    document.getElementById("loader").style.display = "block";
+
+    let formData = new FormData();
+    formData.append("file", file);
+
+    let response = await fetch("/predict", {
+        method: "POST",
+        body: formData
+    });
+
+    let data = await response.json();
+
+    if (data.output_image) {
+        document.getElementById("loader").style.display = "none";
+        document.getElementById("outputImage").src = data.output_image;
+    } else {
+        alert("Detection failed!");
+    }
+}
+</script>
+
+</body>
+</html>
