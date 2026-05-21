@@ -1,0 +1,14 @@
+path: C:\Users\Shiva\OneDrive\Documents\nareshit\Project\PROJECT__YOLO\data_set   # ⚠️ change this
+
+train: train/images
+val: val/images
+
+nc: 6
+
+names:
+  0: pancard
+  1: qr_code
+  2: pan_number
+  3: holder_name
+  4: dob
+  5: signature
