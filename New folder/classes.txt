@@ -1,0 +1,6 @@
+Pan Card
+Pan Card QR Code
+Pan Card Number
+Pan Card Holder Name
+Pan Card Date Of Birth
+Pan Card Holder Signature
